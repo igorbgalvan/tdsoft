@@ -35,9 +35,31 @@ class AlunosController extends AppController
         } else {
             $this->response = $this->response->withStatus(405);
             $data = [
-                'message' => 'Este método não é permitido.'
+                'message' => 'Este método não é permitido.',
+                'code' => 405
             ];
         }
+        $this->set(compact('data'));
+        $this->set('_serialize', 'data');
+    }
+
+    function idRequestReceiver($id = null)
+    {
+        if ($this->request->is('get')) {
+            $this->view($id);
+        } else if ($this->request->is('put')) {
+            $this->edit($id);
+        } else if ($this->request->is('delete')) {
+            $this->delete($id);
+        } else {
+            $this->response = $this->response->withStatus(405);
+            $data = [
+                'message' => 'Este método não é permitido.',
+                'code' => 405
+            ];
+        }
+
+
         $this->set(compact('data'));
         $this->set('_serialize', 'data');
     }
@@ -58,7 +80,8 @@ class AlunosController extends AppController
 
         $this->response = $this->response->withStatus(200);
         $data = [
-            'alunos' => $alunos
+            'alunos' => $alunos,
+            'code' => 200
         ];
 
         $this->set(compact('data'));
@@ -74,11 +97,18 @@ class AlunosController extends AppController
      */
     public function view($id = null)
     {
-        $aluno = $this->Alunos->get($id, [
-            'contain' => [],
-        ]);
+        $aluno = $this->Alunos->get($id);
 
-        $this->set('aluno', $aluno);
+        if ($aluno) {
+            $this->response = $this->response->withStatus(200);
+            $data = ['aluno' => $aluno, 'code' => 200];
+        } else {
+            $this->response = $this->response->withStatus(404);
+            $data = ['message' => 'Usuário não encontrado.', 'code' => 404];
+        }
+
+        $this->set(compact('data'));
+        $this->set('_serialize', 'data');
     }
 
     /**
@@ -95,13 +125,15 @@ class AlunosController extends AppController
 
             $this->response = $this->response->withStatus(201);
             $data = [
-                'message' => 'O aluno foi cadastrado com sucesso'
+                'message' => 'O aluno foi cadastrado com sucesso',
+                'code' => 201
             ];
         } else {
 
             $this->response = $this->response->withStatus(400);
             $data = [
-                'message' => 'O aluno foi não foi cadastrado, tente novamente'
+                'message' => 'O aluno foi não foi cadastrado, tente novamente',
+                'code' => 400
             ];
         }
 
@@ -119,19 +151,16 @@ class AlunosController extends AppController
      */
     public function edit($id = null)
     {
-        $aluno = $this->Alunos->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $aluno = $this->Alunos->patchEntity($aluno, $this->request->getData());
-            if ($this->Alunos->save($aluno)) {
-                $this->Flash->success(__('The aluno has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The aluno could not be saved. Please, try again.'));
+        $aluno = $this->Alunos->get($id);
+        $aluno = $this->Alunos->patchEntity($aluno, $this->request->getData());
+        if ($this->Alunos->save($aluno)) {
+            $this->response = $this->response->withStatus(200);
+            $data = ['aluno' => $aluno, 'code' => 200];
         }
-        $this->set(compact('aluno'));
+
+
+        $this->set(compact('data'));
+        $this->set('_serialize', 'data');
     }
 
     /**
@@ -143,14 +172,14 @@ class AlunosController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
         $aluno = $this->Alunos->get($id);
         if ($this->Alunos->delete($aluno)) {
-            $this->Flash->success(__('The aluno has been deleted.'));
-        } else {
-            $this->Flash->error(__('The aluno could not be deleted. Please, try again.'));
+            $this->response = $this->response->withStatus(200);
+
+            $data = ['aluno' => $aluno, 'code' => 200];
         }
 
-        return $this->redirect(['action' => 'index']);
+        $this->set(compact('data'));
+        $this->set('_serialize', 'data');
     }
 }

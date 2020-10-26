@@ -52,6 +52,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
     $routes->connect('/alunos', ['controller' => 'Alunos', 'action' => 'requestReceiver']);
+    $routes->connect('/alunos/*', ['controller' => 'Alunos', 'action' => 'idRequestReceiver']);
 
     $routes->fallbacks(DashedRoute::class);
 });
