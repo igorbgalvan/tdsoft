@@ -21,6 +21,7 @@ class AlunosController extends AppController
     public function requestReceiver()
     {
 
+
         if ($this->request->is('get')) {
 
             $limite = $this->request->getQuery('limite');
@@ -78,11 +79,21 @@ class AlunosController extends AppController
             );
         }
 
-        $this->response = $this->response->withStatus(200);
-        $data = [
-            'alunos' => $alunos,
-            'code' => 200
-        ];
+        if (sizeof($alunos) == 0) {
+            $this->response = $this->response->withStatus(200);
+            $data = [
+                'alunos' => "Nenhum aluno foi cadastrado no banco ainda.",
+                'code' => 200
+            ];
+        } else {
+            $this->response = $this->response->withStatus(200);
+            $data = [
+                'alunos' => $alunos,
+                'code' => 200
+            ];
+        }
+
+
 
         $this->set(compact('data'));
         $this->set('_serialize', 'data');
@@ -97,7 +108,7 @@ class AlunosController extends AppController
      */
     public function view($id = null)
     {
-        $aluno = $this->Alunos->get($id);
+        $aluno = $this->Alunos->find('all', ['conditions' => ['id' => $id]])->first();
 
         if ($aluno) {
             $this->response = $this->response->withStatus(200);
@@ -151,12 +162,19 @@ class AlunosController extends AppController
      */
     public function edit($id = null)
     {
-        $aluno = $this->Alunos->get($id);
-        $aluno = $this->Alunos->patchEntity($aluno, $this->request->getData());
-        if ($this->Alunos->save($aluno)) {
-            $this->response = $this->response->withStatus(200);
-            $data = ['aluno' => $aluno, 'code' => 200];
+        $aluno = $this->Alunos->find('all', ['conditions' => ['id' => $id]])->first();
+        if ($aluno) {
+            $aluno = $this->Alunos->patchEntity($aluno, $this->request->getData());
+            if ($this->Alunos->save($aluno)) {
+                $this->response = $this->response->withStatus(200);
+                $data = ['aluno' => $aluno, 'code' => 200];
+            }
+        } else {
+            $this->response = $this->response->withStatus(404);
+
+            $data = ['message' => 'Aluno não encontrado.', 'code' => 404];
         }
+
 
 
         $this->set(compact('data'));
@@ -172,11 +190,17 @@ class AlunosController extends AppController
      */
     public function delete($id = null)
     {
-        $aluno = $this->Alunos->get($id);
-        if ($this->Alunos->delete($aluno)) {
-            $this->response = $this->response->withStatus(200);
+        $aluno = $this->Alunos->find('all', ['conditions' => ['id' => $id]])->first();
+        if ($aluno) {
+            if ($this->Alunos->delete($aluno)) {
+                $this->response = $this->response->withStatus(200);
 
-            $data = ['aluno' => $aluno, 'code' => 200];
+                $data = ['aluno' => $aluno, 'code' => 200];
+            }
+        } else {
+            $this->response = $this->response->withStatus(404);
+
+            $data = ['message' => 'Aluno não encontrado.', 'code' => 404];
         }
 
         $this->set(compact('data'));

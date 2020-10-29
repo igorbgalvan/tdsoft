@@ -16,6 +16,8 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\Http\Exception\BadRequestException;
+use Cake\Network\Exception;
 
 /**
  * Application Controller
@@ -43,7 +45,9 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler', [
             'enableBeforeRedirect' => false,
+            
         ]);
+        $this->RequestHandler->ext = 'json';
         $this->response->type('application/json');
 
 

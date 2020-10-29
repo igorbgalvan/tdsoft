@@ -47,7 +47,6 @@ Router::defaultRouteClass(DashedRoute::class);
 
 Router::scope('/', function (RouteBuilder $routes) {
 
-    $routes->extensions(['json', 'xml']);
     $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
