@@ -13,6 +13,7 @@ use App\Controller\AppController;
  */
 class AlunosController extends AppController
 {
+    
     /**
      * Index method
      *
