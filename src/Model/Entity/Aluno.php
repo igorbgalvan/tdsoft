@@ -7,11 +7,11 @@ use Cake\ORM\Entity;
  * Aluno Entity
  *
  * @property int $id
- * @property string|null $rga
- * @property string|null $nome
- * @property string|null $curso
+ * @property string $rga
+ * @property string $nome
+ * @property string $curso
  * @property \Cake\I18n\FrozenTime $registrado_em
- * @property bool|null $status
+ * @property string $situacao
  */
 class Aluno extends Entity
 {

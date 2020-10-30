@@ -29,16 +29,16 @@
             <td><?= h($aluno->curso) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Situacao') ?></th>
+            <td><?= h($aluno->situacao) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($aluno->id) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Registrado Em') ?></th>
             <td><?= h($aluno->registrado_em) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Status') ?></th>
-            <td><?= $aluno->status ? __('Yes') : __('No'); ?></td>
         </tr>
     </table>
 </div>

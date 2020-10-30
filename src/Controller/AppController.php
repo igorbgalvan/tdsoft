@@ -49,6 +49,7 @@ class AppController extends Controller
         ]);
         $this->RequestHandler->ext = 'json';
         $this->response->type('application/json');
+        
 
 
         /*

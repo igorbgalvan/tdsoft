@@ -25,7 +25,7 @@
             echo $this->Form->control('nome');
             echo $this->Form->control('curso');
             echo $this->Form->control('registrado_em');
-            echo $this->Form->control('status');
+            echo $this->Form->control('situacao');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

@@ -48,11 +48,11 @@ class AlunosController extends AppController
     function idRequestReceiver($id = null)
     {
         if ($this->request->is('get')) {
-            $this->view($id);
+            return $this->view($id);
         } else if ($this->request->is('put')) {
-            $this->edit($id);
+            return $this->edit($id);
         } else if ($this->request->is('delete')) {
-            $this->delete($id);
+            return $this->delete($id);
         } else {
             $this->response = $this->response->withStatus(405);
             $data = [

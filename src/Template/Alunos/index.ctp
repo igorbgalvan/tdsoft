@@ -20,7 +20,7 @@
                 <th scope="col"><?= $this->Paginator->sort('nome') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('curso') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('registrado_em') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('status') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('situacao') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -32,7 +32,7 @@
                 <td><?= h($aluno->nome) ?></td>
                 <td><?= h($aluno->curso) ?></td>
                 <td><?= h($aluno->registrado_em) ?></td>
-                <td><?= h($aluno->status) ?></td>
+                <td><?= h($aluno->situacao) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $aluno->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $aluno->id]) ?>

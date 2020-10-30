@@ -50,25 +50,28 @@ class AlunosTable extends Table
         $validator
             ->scalar('rga')
             ->maxLength('rga', 15)
-            ->allowEmptyString('rga');
+            ->requirePresence('rga', 'create')
+            ->notEmptyString('rga');
 
         $validator
             ->scalar('nome')
             ->maxLength('nome', 255)
-            ->allowEmptyString('nome');
+            ->requirePresence('nome', 'create')
+            ->notEmptyString('nome');
 
         $validator
             ->scalar('curso')
             ->maxLength('curso', 255)
-            ->allowEmptyString('curso');
+            ->requirePresence('curso', 'create')
+            ->notEmptyString('curso');
 
         $validator
             ->dateTime('registrado_em')
             ->notEmptyDateTime('registrado_em');
 
         $validator
-            ->boolean('status')
-            ->allowEmptyString('status');
+            ->scalar('status')
+            ->notEmptyString('status');
 
         return $validator;
     }
